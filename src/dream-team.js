@@ -14,6 +14,7 @@ const { NotImplementedError } = require('../extensions/index.js');
  *
  */
 function createDreamTeam(arrName) {
+  //throw new NotImplementedError('Not implemented');
   if(!arrName) return false;
   let nameDreamTeam = '';
   for(let i = 0; i < arrName.length; i++){
