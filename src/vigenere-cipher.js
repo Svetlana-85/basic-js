@@ -20,13 +20,63 @@ const { NotImplementedError } = require('../extensions/index.js');
  * 
  */
 class VigenereCipheringMachine {
-  encrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  constructor(direct = true){
+    this.Reverse = !direct;
   }
-  decrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  
+  encrypt(message, key) {
+    //throw new NotImplementedError('Not implemented');
+    if (message === undefined || key === undefined) throw new Error (`Incorrect arguments!`);
+    let language = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+    key = key.toUpperCase();
+    message = message.toUpperCase();
+    let result = '';
+    let posLetterMessage, posLetterKey, posLetterEncript;
+    let lenKey = key.length;
+    for(let i = 0, j = 0; i < message.length; i++, j++){
+      if (j === lenKey) j = 0;
+      posLetterMessage = language.indexOf(message[i]);
+      if (posLetterMessage >= 0){
+        posLetterKey = language.indexOf(key[j]);
+        posLetterEncript = (posLetterMessage + posLetterKey)%26;
+        result += language[posLetterEncript];
+      }
+      else {
+        result += message[i];
+        j--;
+      }
+    }
+    if (!this.Reverse)
+      return result;
+    else return result.split('').reverse().join('') ;
+  }
+  decrypt(message, key) {
+    //throw new NotImplementedError('Not implemented');
+    if (message === undefined || key === undefined) throw new Error (`Incorrect arguments!`);
+    let language = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+    key = key.toUpperCase();
+    message = message.toUpperCase();
+    //if (this.Reverse) message = message.split('').reverse().join('') ;
+    let result = '';
+    let posLetterMessage, posLetterKey, posLetterEncript;
+    let lenKey = key.length;
+    for(let i = 0, j = 0; i < message.length; i++, j++){
+      if (j === lenKey) j = 0;
+      posLetterMessage = language.indexOf(message[i]);
+      if (posLetterMessage >= 0){
+        posLetterKey = language.indexOf(key[j]);
+        posLetterEncript = (posLetterMessage - posLetterKey + 26)%26;
+        result += language[posLetterEncript];
+      }
+      else {
+        result += message[i];
+        j--;
+      }
+    }
+    if (!this.Reverse)
+      return result;
+    else return result.split('').reverse().join('') ;
+    //return result;
   }
 }
 
